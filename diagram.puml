@@ -1,0 +1,110 @@
+@startuml
+class Board {
+    +rootElement: HTMLElement | null
+    -components: Component[][]
+    +getComponent(position: Position): Component
+    +setComponent(position: Position, component: Component): void
+    +getPlayer(): Player
+    +getCurrentPlayerPosition(): Position
+    +moveComponent(component: Component, nextPos: Position): void
+    +won(): boolean
+    +handleMove(nextPos: Position, direction: any): void
+    +render(): void
+}
+class BoardFactory {
+    +{static} createComponent(position: Position, type?: string | undefined): Component
+    +{static} createBoard(): Board
+}
+abstract class Component {
+    +{abstract} name: string
+    +position: Position
+    +{abstract} canMove(): boolean
+    +{abstract} canMoveTo(component: Component): boolean
+}
+class Box extends Movable {
+    +name: string
+    +canMoveTo(component: Component): boolean
+}
+class BoxSlot extends Immovable {
+    +name: string
+    +canMoveTo(component: Component): boolean
+    +canMove(): boolean
+}
+class Floor extends Immovable {
+    +name: string
+    +canMoveTo(component: Component): boolean
+    +canMove(): boolean
+}
+class Player extends Movable {
+    +name: string
+    +canMoveTo(component: Component): boolean
+    +canMove(): boolean
+}
+class Wall extends Immovable {
+    +name: string
+    +canMoveTo(): boolean
+    +canMove(): boolean
+}
+class Game {
+    -state: GameState
+    +board: Board
+    +getCurrentPosition(): Position
+    +move(nextPosition: Position, direction: any): void
+    +transitionTo(state: GameState): void
+    -{static} instance: Game
+    +{static} getInstance(): Game
+}
+class Movement {
+    +{static} moveDeltas: { up: number[]; down: number[]; left: number[]; right: number[]; }
+    +{static} nextPos(currentPos: Position, direction: any): Position
+    +{static} move(direction: any): void
+}
+abstract class Immovable extends Component implements IMoveStrategy {
+    +canMove(): boolean
+}
+interface IMoveStrategy {
+    +canMove(): boolean
+    +canMoveTo(component: Component): boolean
+}
+abstract class Movable extends Component implements IMoveStrategy {
+    +canMove(): boolean
+}
+class Position {
+    +row: number
+    +column: number
+}
+abstract class GameState {
+    +{abstract} name: string
+}
+class InitialState extends GameState {
+    +name: string
+    +start(e: Event): void
+}
+class PlayState extends GameState {
+    +name: string
+    +move(nextPosition: Position, direction: any): void
+}
+class WonState extends GameState {
+    +name: string
+    +move(nextPosition: Position, direction: any): void
+}
+Board --> "*" Component
+Board --> "1" Position
+Board --> "1" Component
+Board --> "1" Player
+BoardFactory --> "1" Position
+BoardFactory --> "1" Component
+BoardFactory --> "1" Board
+Component --> "1" Position
+Box --> "1" Component
+BoxSlot --> "1" Component
+Floor --> "1" Component
+Player --> "1" Component
+Game --> "1" GameState
+Game --> "1" Board
+Game --> "1" Position
+Movement --> "1" Position
+IMoveStrategy --> "1" Component
+PlayState --> "1" Position
+WonState --> "1" Position
+@enduml

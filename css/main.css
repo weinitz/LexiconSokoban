@@ -1,0 +1,37 @@
+#board {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(10, fit-content(50px));
+    justify-items: end;
+    grid-column: 2 / 2;
+    justify-self: start;
+}
+
+#board div div {
+    background-color: azure;
+    display: grid;
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    align-content: center;
+}
+
+#board div.Box {
+    background-color: #4a2b2b;
+}
+
+#board div.Player {
+    background-color: #2d0bf0;
+}
+
+#board div.Wall {
+    background-color: #946868;
+}
+
+#board div.BoxSlot {
+    background-color:#ddf15f
+}
+
+#board div.highlight {
+    border: 2px #0000 solid
+}

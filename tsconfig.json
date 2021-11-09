@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "target": "ES6",
+        "module": "commonjs",
+        "outDir": "js",
+        "baseUrl": ".",
+        "paths": {
+          "@App/*": ["src/*"],
+          "lib/*": ["common/*"]
+        },
+        "strictNullChecks": true,
+        "strictPropertyInitialization": true
+        
+    }
+}
